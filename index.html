@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Streaming Markdown Parser</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #streamBtn {
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+        #output {
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<button id="streamBtn">Stream</button>
+<div id="output"></div>
+
+<script type="module">
+    import { addToken } from "./src/MarkdownParser.ts";
+
+    const text = [
+        "This ",
+        "is ",
+        "a ",
+        "streaming ",
+        "markdown ",
+        "parser ",
+        "demo.\n\n",
+
+        "Here ",
+        "is ",
+        "some ",
+        "`",
+        "inline",
+        " code",
+        "`",
+        " used ",
+        "inside ",
+        "a ",
+        "sentence.\n\n",
+
+        "Now ",
+        "we ",
+        "will ",
+        "render ",
+        "a ",
+        "code ",
+        "block:\n",
+
+        "`", "`", "`",
+        "js",
+        "\n",
+        "function greet() {",
+        "\n",
+        "  console.log('Hello from stream');",
+        "\n",
+        "}",
+        "\n",
+        "`", "`", "`",
+        "\n\n",
+
+        "After ",
+        "the ",
+        "code ",
+        "block, ",
+        "we ",
+        "continue ",
+        "with ",
+        "normal ",
+        "text ",
+        "and ",
+        "another ",
+        "`",
+        "inline",
+        " example",
+        "`",
+        ".\n\n",
+
+        "This ",
+        "demonstrates ",
+        "how ",
+        "markdown ",
+        "can ",
+        "be ",
+        "parsed ",
+        "incrementally ",
+        "while ",
+        "tokens ",
+        "arrive ",
+        "one ",
+        "by ",
+        "one.\n\n",
+
+        "end"
+    ];
+
+    let i = 0;
+    let interval = null;
+
+    const button = document.getElementById("streamBtn");
+
+    button.addEventListener("click", () => {
+        button.disabled = true;
+
+        interval = setInterval(() => {
+            if (i >= text.length) {
+                clearInterval(interval);
+                return;
+            }
+            addToken(text[i++]);
+        }, 250);
+    });
+</script>
+
+</body>
+</html>
